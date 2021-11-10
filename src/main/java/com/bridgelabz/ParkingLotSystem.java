@@ -7,7 +7,8 @@ package com.bridgelabz;
  * @since : 09-11-2021.
  */
 public class ParkingLotSystem {
-    private Vehicle vehicle;
+    //    private Vehicle vehicle;
+    private Object vehicle;
 
     /**
      * Purpose : To print Welcome Message.
@@ -23,6 +24,9 @@ public class ParkingLotSystem {
      * @return True For Vehicle Parked
      */
     public boolean parkVehicle(Object vehicle) {
+        if (this.vehicle != null)
+            return false;
+        this.vehicle = vehicle;
         return true;
     }
 }
