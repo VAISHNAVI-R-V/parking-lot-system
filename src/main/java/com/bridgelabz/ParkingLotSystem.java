@@ -7,10 +7,28 @@ package com.bridgelabz;
  * @since  : 09-11-2021.
  */
 public class ParkingLotSystem {
+   private Vehicle vehicle;
+
     /**
      * Purpose : To print Welcome Message.
      */
     public void welcomeMessage() {
         System.out.println("Welcome to Parking Lot Service Program...!! :-) ");
     }
+
+
+    /**
+     * Purpose : To Park the Vehicle in Parking Lot
+     *
+     * @param vehicle given vehicle as parameter
+     * @return True For Vehicle Parked
+     */
+    public boolean parkVehicle(Object vehicle) {
+        return true;
+    }
+//    public boolean park(Vehicle vehicle) {
+//        if (this.car == null)
+//            this.car = car;
+//        return true;
+
 }
