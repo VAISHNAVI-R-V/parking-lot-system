@@ -11,6 +11,6 @@ public class ParkingLotSystem {
      * Purpose : To print Welcome Message.
      */
     public void welcomeMessage() {
-        System.out.println("Welcome to Parking Lot Service Program...!! :-)");
+        System.out.println("Welcome to Parking Lot Service Program...!! :-) ");
     }
 }
