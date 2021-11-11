@@ -70,6 +70,16 @@ public class ParkingLotSystemTest {
     }
 
     @Test
+     void givenNullVehicle_WhenUnParked_ShouldReturnException() {
+        try {
+            parkingLotSystem.unParkVehicle(vehicle);
+        } catch (ParkingLotSystemException e) {
+            Assertions.assertEquals("No such A Vehicle Found", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     void givenAVehicle_WhenUnParkedAnotherVehicle_ShouldReturnFalse() {
         try {
             parkingLotSystem.parkVehicle(vehicle);

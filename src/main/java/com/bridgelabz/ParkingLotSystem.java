@@ -20,8 +20,9 @@ public class ParkingLotSystem {
      * Purpose : To Park the Vehicle in Parking Lot
      *
      * @param vehicle : takes vehicle as parameter
-     * @return True : For Vehicle Parked
+     * @throws : ParkingLotSystemException
      */
+
     public void parkVehicle(Object vehicle) throws ParkingLotSystemException {
         if (this.vehicle != null)
             throw new ParkingLotSystemException("Parking Lot is Full");
@@ -32,16 +33,13 @@ public class ParkingLotSystem {
      * Purpose : To UnParked the Vehicle from parking lot
      *
      * @param vehicle : takes vehicle as parameter
-     * @return : Vehicle UnParked
+     * @throws : ParkingLotSystemException
      */
-    public boolean unParkVehicle(Object vehicle) {
-        if (this.vehicle == null)
-            return false;
+    public void unParkVehicle(Object vehicle) throws ParkingLotSystemException {
+        if (this.vehicle == null) throw new ParkingLotSystemException("No such A Vehicle Found");
         if (this.vehicle.equals(vehicle)) {
             this.vehicle = null;
-            return true;
         }
-        return false;
     }
 
     /**
@@ -51,10 +49,7 @@ public class ParkingLotSystem {
      * @return : Vehicle Equals
      */
     public boolean isVehicleParked(Object vehicle) {
-        if (this.vehicle.equals(vehicle))
-            return true;
-        return false;
-
+        return this.vehicle.equals(vehicle);
     }
 
     /**
