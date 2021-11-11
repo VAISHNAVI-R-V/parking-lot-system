@@ -7,7 +7,6 @@ package com.bridgelabz;
  * @since : 09-11-2021.
  */
 public class ParkingLotSystem {
-    //    private Vehicle vehicle;
     private Object vehicle;
 
     /**
@@ -23,18 +22,17 @@ public class ParkingLotSystem {
      * @param vehicle : takes vehicle as parameter
      * @return True : For Vehicle Parked
      */
-    public boolean parkVehicle(Object vehicle) {
+    public void parkVehicle(Object vehicle) throws ParkingLotSystemException {
         if (this.vehicle != null)
-            return false;
+            throw new ParkingLotSystemException("Parking Lot is Full");
         this.vehicle = vehicle;
-        return true;
     }
 
     /**
      * Purpose : To UnParked the Vehicle from parking lot
      *
      * @param vehicle : takes vehicle as parameter
-     * @return  : Vehicle UnParked
+     * @return : Vehicle UnParked
      */
     public boolean unParkVehicle(Object vehicle) {
         if (this.vehicle == null)
@@ -44,5 +42,28 @@ public class ParkingLotSystem {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Purpose : To Check Vehicle is Parked Or Not
+     *
+     * @param vehicle : given Vehicle as parameter
+     * @return : Vehicle Equals
+     */
+    public boolean isVehicleParked(Object vehicle) {
+        if (this.vehicle.equals(vehicle))
+            return true;
+        return false;
+
+    }
+
+    /**
+     * Purpose : To Check a Vehicle is UnParked Or Not
+     *
+     * @param vehicle : takes the Vehicle Param
+     * @return : UnParked vehicle.
+     */
+    public boolean isVehicleUnParked(Object vehicle) {
+        return this.vehicle == null;
     }
 }
