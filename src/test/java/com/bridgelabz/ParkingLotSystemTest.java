@@ -98,8 +98,16 @@ public class ParkingLotSystemTest {
     public void givenAVehicle_WhenParkingLotIsFull_ShouldInformTheOwner() {
         ParkingLotSystemOwner owner = new ParkingLotSystemOwner();
         parkingLotSystem.registerOwner(owner);
+        Vehicle vehicle1 = new Vehicle("KA-3690", "Brown","Toyota");
+        Vehicle vehicle2 = new Vehicle("KA-8520", "Grey","Fiat");
+        Vehicle vehicle3 = new Vehicle("MH-3214", "Blue","Tata");
+        Vehicle vehicle4 = new Vehicle("MH-7895", "White","Lexus");
         try {
-            parkingLotSystem.parkVehicle(vehicle);
+//            parkingLotSystem.parkVehicle(vehicle);
+            parkingLotSystem.parkVehicle(vehicle1);
+            parkingLotSystem.parkVehicle(vehicle2);
+            parkingLotSystem.parkVehicle(vehicle3);
+            parkingLotSystem.parkVehicle(vehicle4);
         } catch (ParkingLotSystemException e) {
             Assertions.assertEquals("Parking Lot is Full", e.getMessage());
             e.printStackTrace();
