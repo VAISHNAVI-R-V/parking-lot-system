@@ -8,6 +8,7 @@ package com.bridgelabz;
  */
 public class ParkingLotSystem {
     private Object vehicle;
+    private ParkingLotSystemOwner owner;
 
     /**
      * Purpose : To print Welcome Message.
@@ -60,5 +61,9 @@ public class ParkingLotSystem {
      */
     public boolean isVehicleUnParked(Object vehicle) {
         return this.vehicle == null;
+    }
+
+    public void registerOwner(ParkingLotSystemOwner owner) {
+        this.owner = owner;
     }
 }
