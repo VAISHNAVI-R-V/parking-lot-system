@@ -7,7 +7,7 @@ package com.bridgelabz;
  * @since : 09-11-2021.
  */
 public class ParkingLotSystem {
-    private final int actualCapacity;
+    private int actualCapacity;
     private int currentCapacity;
     private Object vehicle;
     private ParkingLotSystemOwner owner;
@@ -18,10 +18,28 @@ public class ParkingLotSystem {
     }
 
     /**
+     * Purpose : To create method of registerOwner to Inform the owner
+     *
+     * @param owner :
+     */
+    public void registerOwner(ParkingLotSystemOwner owner) {
+        this.owner = owner;
+    }
+
+    /**
      * Purpose : To print Welcome Message.
      */
     public void welcomeMessage() {
         System.out.println("Welcome to Parking Lot Service Program...!! :-) ");
+    }
+
+    /**
+     * Purpose : To set the Capacity of ParkingLot.
+     *
+     * @param capacity : takes Capacity of Parking Lot.
+     */
+    public void setCapacity(int capacity) {
+        this.actualCapacity = capacity;
     }
 
     /**
@@ -74,12 +92,5 @@ public class ParkingLotSystem {
         return this.vehicle == null;
     }
 
-    /**
-     * Purpose : To create method of registerOwner to Inform the owner
-     *
-     * @param owner :
-     */
-    public void registerOwner(ParkingLotSystemOwner owner) {
-        this.owner = owner;
-    }
+
 }
