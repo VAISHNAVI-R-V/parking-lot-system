@@ -7,8 +7,15 @@ package com.bridgelabz;
  * @since : 09-11-2021.
  */
 public class ParkingLotSystem {
+    private final int actualCapacity;
+    private int currentCapacity;
     private Object vehicle;
     private ParkingLotSystemOwner owner;
+
+    public ParkingLotSystem(int capacity) {
+        this.currentCapacity = 0;
+        this.actualCapacity = capacity;
+    }
 
     /**
      * Purpose : To print Welcome Message.
@@ -24,9 +31,13 @@ public class ParkingLotSystem {
      * @throws : ParkingLotSystemException
      */
 
-    public void parkVehicle(Object vehicle) throws ParkingLotSystemException {
-        if (this.vehicle != null)
+    public void parkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
+        if (this.currentCapacity == this.actualCapacity) {
+            owner.capacityIsFull();
             throw new ParkingLotSystemException("Parking Lot is Full");
+        }
+        this.currentCapacity++;
+//        if (this.currentCapacity == this.actualCapacity)
         this.vehicle = vehicle;
     }
 
@@ -36,7 +47,7 @@ public class ParkingLotSystem {
      * @param vehicle : takes vehicle as parameter
      * @throws : ParkingLotSystemException
      */
-    public void unParkVehicle(Object vehicle) throws ParkingLotSystemException {
+    public void unParkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
         if (this.vehicle == null) throw new ParkingLotSystemException("No such A Vehicle Found");
         if (this.vehicle.equals(vehicle)) {
             this.vehicle = null;
@@ -49,7 +60,7 @@ public class ParkingLotSystem {
      * @param vehicle : given Vehicle as parameter
      * @return : Vehicle Equals
      */
-    public boolean isVehicleParked(Object vehicle) {
+    public boolean isVehicleParked(Vehicle vehicle) {
         return this.vehicle.equals(vehicle);
     }
 
@@ -59,10 +70,15 @@ public class ParkingLotSystem {
      * @param vehicle : takes the Vehicle Param
      * @return : UnParked vehicle.
      */
-    public boolean isVehicleUnParked(Object vehicle) {
+    public boolean isVehicleUnParked(Vehicle vehicle) {
         return this.vehicle == null;
     }
 
+    /**
+     * Purpose : To create method of registerOwner to Inform the owner
+     *
+     * @param owner :
+     */
     public void registerOwner(ParkingLotSystemOwner owner) {
         this.owner = owner;
     }
