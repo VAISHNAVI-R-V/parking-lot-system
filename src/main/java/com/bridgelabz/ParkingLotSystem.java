@@ -1,5 +1,8 @@
 package com.bridgelabz;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Purpose: To Implement the PARKING LOT SYSTEM program.
  *
@@ -9,10 +12,11 @@ package com.bridgelabz;
 public class ParkingLotSystem {
     private int actualCapacity;
     private int currentCapacity;
-    private Object vehicle;
+    private List<Vehicle> vehicle;
     private ParkingLotSystemOwner owner;
 
     public ParkingLotSystem(int capacity) {
+        this.vehicle = new ArrayList<>();
         this.currentCapacity = 0;
         this.actualCapacity = capacity;
     }
@@ -50,13 +54,12 @@ public class ParkingLotSystem {
      */
 
     public void parkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
-        if (this.currentCapacity == this.actualCapacity) {
+        if (this.vehicle.size() == this.actualCapacity) {
             owner.capacityIsFull();
             throw new ParkingLotSystemException("Parking Lot is Full");
         }
-        this.currentCapacity++;
-//        if (this.currentCapacity == this.actualCapacity)
-        this.vehicle = vehicle;
+
+        this.vehicle.add(vehicle);
     }
 
     /**
@@ -67,7 +70,7 @@ public class ParkingLotSystem {
      */
     public void unParkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
         if (this.vehicle == null) throw new ParkingLotSystemException("No such A Vehicle Found");
-        if (this.vehicle.equals(vehicle)) {
+        if (this.vehicle.contains(vehicle)) {
             this.vehicle = null;
         }
     }
@@ -79,7 +82,7 @@ public class ParkingLotSystem {
      * @return : Vehicle Equals
      */
     public boolean isVehicleParked(Vehicle vehicle) {
-        return this.vehicle.equals(vehicle);
+        return this.vehicle.contains(vehicle);
     }
 
     /**

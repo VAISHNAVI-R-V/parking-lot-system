@@ -97,14 +97,14 @@ public class ParkingLotSystemTest {
             e.printStackTrace();
         }
     }
+
     @Test
     public void givenAVehicle_WhenParkingLotIsFull_ShouldInformTheOwner() {
-//        ParkingLotSystemOwner owner = new ParkingLotSystemOwner();
         parkingLotSystem.registerOwner(owner);
-        Vehicle vehicle1 = new Vehicle("KA-3690", "Brown","Toyota");
-        Vehicle vehicle2 = new Vehicle("KA-8520", "Grey","Fiat");
-        Vehicle vehicle3 = new Vehicle("MH-3214", "Blue","Tata");
-        Vehicle vehicle4 = new Vehicle("MH-7895", "White","Lexus");
+        Vehicle vehicle1 = new Vehicle("KA-3690", "Brown", "Toyota");
+        Vehicle vehicle2 = new Vehicle("KA-8520", "Grey", "Fiat");
+        Vehicle vehicle3 = new Vehicle("MH-3214", "Blue", "Tata");
+        Vehicle vehicle4 = new Vehicle("MH-7895", "White", "Lexus");
         try {
 //            parkingLotSystem.parkVehicle(vehicle);
             parkingLotSystem.parkVehicle(vehicle1);
@@ -113,7 +113,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkVehicle(vehicle4);
 //            boolean isCapacityFull = owner.getStatusIfCapacityFull();
         } catch (ParkingLotSystemException e) {
-           boolean capacityFull = owner.isCapacityFull();
+            boolean capacityFull = owner.isCapacityFull();
             Assertions.assertTrue(capacityFull);
             e.printStackTrace();
         }
@@ -122,16 +122,16 @@ public class ParkingLotSystemTest {
     @Test
     void givenCapacityIs2_ShouldBeAbleToPark2Vehicles() {
         parkingLotSystem.setCapacity(2);
-        Vehicle vehicle1 = new Vehicle("UK-5123", "Black","Rolls Royce");
-        Vehicle vehicle2 = new Vehicle("KA-8520", "Grey","Audi");
+        Vehicle vehicle1 = new Vehicle("UK-5123", "Black", "Rolls Royce");
+        Vehicle vehicle2 = new Vehicle("KA-8520", "Grey", "Audi");
         try {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(vehicle2);
             boolean isParked1 = parkingLotSystem.isVehicleParked(vehicle1);
             boolean isParked2 = parkingLotSystem.isVehicleParked(vehicle2);
             Assertions.assertTrue(isParked1 && isParked2);
-    } catch (ParkingLotSystemException e) {
-
+        } catch (ParkingLotSystemException e) {
+            e.printStackTrace();
         }
-}
+    }
 }

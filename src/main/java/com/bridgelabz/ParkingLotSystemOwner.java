@@ -1,12 +1,12 @@
 package com.bridgelabz;
-
+/**
+ * Purpose : The Implementation of Exception for parking lot system.
+ *
+ * @author VAISHNAVI R. VISHWAKARMA
+ * @since 2021-11-12.
+ */
 public class ParkingLotSystemOwner {
     private boolean isFullCapacity;
-//private boolean isParkingLotFull;
-//    public boolean getStatusIfCapacityFull() {
-//        return this.isParkingLotFull();
-
-
 
     public void capacityIsFull() {
         isFullCapacity = true;
