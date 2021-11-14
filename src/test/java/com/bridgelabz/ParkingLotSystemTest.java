@@ -152,4 +152,19 @@ public class ParkingLotSystemTest {
             Assertions.assertTrue(capacityFull);
         }
     }
+
+    @Test
+    void givenWhenParkingLotSpaceAvailableAfterFull_ShouldReturnTrue() {
+        parkingLotSystem.registerParkingLotObserver(owner);
+        Vehicle vehicle1 = new Vehicle("MH-8595", "Silver", "Hyundai");
+        Vehicle vehicle2 = new Vehicle("MH-9614", "Blue", "Tata");
+        try {
+            parkingLotSystem.parkVehicle(vehicle1);
+            parkingLotSystem.parkVehicle(vehicle2);
+            parkingLotSystem.unParkVehicle(vehicle1);
+        } catch (ParkingLotSystemException e) {
+            boolean capacityFull = owner.isCapacityFull();
+            Assertions.assertFalse(capacityFull);
+        }
+    }
 }
