@@ -114,7 +114,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkVehicle(vehicle4);
 //            boolean isCapacityFull = owner.getStatusIfCapacityFull();
         } catch (ParkingLotSystemException e) {
-            boolean capacityFull = owner.isCapacityFull();
+            boolean capacityFull = owner.isCapacityFullStatus();
             Assertions.assertTrue(capacityFull);
             e.printStackTrace();
         }
@@ -148,23 +148,22 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(vehicle2);
         } catch (ParkingLotSystemException e) {
-            boolean capacityFull = airportSecurity.isCapacityFull();
+            boolean capacityFull = airportSecurity.isCapacityFullStatus();
             Assertions.assertTrue(capacityFull);
         }
     }
 
     @Test
-    void givenWhenParkingLotSpaceAvailableAfterFull_ShouldReturnTrue() {
+    void givenWhenParkingLotSpaceAvailableAfterFull_ShouldReturnTrue() throws ParkingLotSystemException {
         parkingLotSystem.registerParkingLotObserver(owner);
         Vehicle vehicle1 = new Vehicle("MH-8595", "Silver", "Hyundai");
-        Vehicle vehicle2 = new Vehicle("MH-9614", "Blue", "Tata");
-        try {
-            parkingLotSystem.parkVehicle(vehicle1);
-            parkingLotSystem.parkVehicle(vehicle2);
-            parkingLotSystem.unParkVehicle(vehicle1);
-        } catch (ParkingLotSystemException e) {
-            boolean capacityFull = owner.isCapacityFull();
-            Assertions.assertFalse(capacityFull);
-        }
+        Vehicle vehicle2 = new Vehicle("KA-9614", "Blue", "Tata");
+//        Vehicle vehicle3 = new Vehicle("KA-9423", "Orange", "Kia");
+        parkingLotSystem.parkVehicle(vehicle1);
+        parkingLotSystem.parkVehicle(vehicle2);
+//        parkingLotSystem.parkVehicle(vehicle3);
+        Assertions.assertTrue(parkingLotSystem.isFullCapacity());
+        parkingLotSystem.unParkVehicle(vehicle2);
+        Assertions.assertFalse(owner.isCapacityFullStatus());
     }
 }

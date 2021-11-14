@@ -74,7 +74,8 @@ public class ParkingLotSystem {
 //            security.capacityIsFull();
             throw new ParkingLotSystemException("Parking Lot is Full");
         }
-        if (isVehicleParked(vehicle)) throw new ParkingLotSystemException("Vehicle already Parked");
+        else if (isVehicleParked(vehicle)) {
+        throw new ParkingLotSystemException("Vehicle already Parked");}
         this.vehicle.add(vehicle);
     }
 
@@ -112,5 +113,13 @@ public class ParkingLotSystem {
      */
     public boolean isVehicleUnParked(Vehicle vehicle) {
         return this.vehicle == null;
+    }
+    /**
+     * Purpose : This method is created for checking whether the parking lot is full or not
+     *
+     * @return : the checked value
+     */
+    public boolean isFullCapacity() {
+        return this.vehicle.size() == this.actualCapacity;
     }
 }
