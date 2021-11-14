@@ -9,11 +9,13 @@ public class ParkingLotSystemTest {
     //    Object vehicle = null;
     Vehicle vehicle = null;
     ParkingLotSystemOwner owner = null;
+    AirportSecurity airportSecurity = null;
 
     @BeforeEach
     void setUp() {
         parkingLotSystem = new ParkingLotSystem(2);
         owner = new ParkingLotSystemOwner();
+        airportSecurity = new AirportSecurity();
 //        vehicle = new Object();
     }
 
@@ -42,7 +44,6 @@ public class ParkingLotSystemTest {
         try {
             parkingLotSystem.parkVehicle(vehicle);
             boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
-//            parkingLotSystem.parkVehicle(new Object());
         } catch (ParkingLotSystemException e) {
             Assertions.assertEquals("Parking Lot is Full", e.getMessage());
             e.printStackTrace();
@@ -100,7 +101,7 @@ public class ParkingLotSystemTest {
 
     @Test
     public void givenAVehicle_WhenParkingLotIsFull_ShouldInformTheOwner() {
-        parkingLotSystem.registerOwner(owner);
+        parkingLotSystem.registerParkingLotObserver(owner);
         Vehicle vehicle1 = new Vehicle("KA-3690", "Brown", "Toyota");
         Vehicle vehicle2 = new Vehicle("KA-8520", "Grey", "Fiat");
         Vehicle vehicle3 = new Vehicle("MH-3214", "Blue", "Tata");
@@ -132,6 +133,23 @@ public class ParkingLotSystemTest {
             Assertions.assertTrue(isParked1 && isParked2);
         } catch (ParkingLotSystemException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    void givenAVehicle_WhenParkingLotIsFull_ShouldInformTheSecurity() {
+        AirportSecurity airportSecurity = new AirportSecurity();
+//        owner = new ParkingLotSystemOwner();
+        parkingLotSystem.registerParkingLotObserver(airportSecurity);
+        Vehicle vehicle1 = new Vehicle("KA-5710", "Red", "Maruti Suzuki");
+        Vehicle vehicle2 = new Vehicle("MH-4814", "Black", "Nano");
+//        Vehicle vehicle3 = new Vehicle("MH-7695", "Silver", "Hyundai");
+        try {
+            parkingLotSystem.parkVehicle(vehicle1);
+            parkingLotSystem.parkVehicle(vehicle2);
+        } catch (ParkingLotSystemException e) {
+            boolean capacityFull = airportSecurity.isCapacityFull();
+            Assertions.assertTrue(capacityFull);
         }
     }
 }

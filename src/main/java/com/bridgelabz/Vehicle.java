@@ -16,4 +16,17 @@ public class Vehicle {
         this.vehicleNumber = vehicleNumber;
         this.vehicleColor = vehicleColor;
     }
+
+    // Generated Getters
+    public String getName() {
+        return name;
+    }
+
+    public String getVehicleNumber() {
+        return vehicleNumber;
+    }
+
+    public String getVehicleColor() {
+        return vehicleColor;
+    }
 }

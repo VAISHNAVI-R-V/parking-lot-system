@@ -1,11 +1,12 @@
 package com.bridgelabz;
+
 /**
- * Purpose : The Implementation of Exception for parking lot system.
+ * Purpose : To create AirportSecurity class to behave as AirportSecurity Observer.
  *
- * @author VAISHNAVI R. VISHWAKARMA
- * @since 2021-11-12.
+ * @author : VAISHNAVI R. VISHWAKRMA
+ * @since : 13-11-2021.
  */
-public class ParkingLotSystemOwner implements ParkingLotObserver {
+public class AirportSecurity implements ParkingLotObserver {
     private boolean isFullCapacity;
 
     /**

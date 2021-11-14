@@ -10,24 +10,18 @@ import java.util.List;
  * @since : 09-11-2021.
  */
 public class ParkingLotSystem {
+    //    private int currentCapacity;
     private int actualCapacity;
-    private int currentCapacity;
     private List<Vehicle> vehicle;
-    private ParkingLotSystemOwner owner;
+    private List<ParkingLotObserver> observers;
+    //    private ParkingLotSystemOwner owner;
+    private AirportSecurity security;
 
     public ParkingLotSystem(int capacity) {
+        this.observers = new ArrayList<>();
         this.vehicle = new ArrayList<>();
-        this.currentCapacity = 0;
+//        this.currentCapacity = 0;
         this.actualCapacity = capacity;
-    }
-
-    /**
-     * Purpose : To create method of registerOwner to Inform the owner
-     *
-     * @param owner :
-     */
-    public void registerOwner(ParkingLotSystemOwner owner) {
-        this.owner = owner;
     }
 
     /**
@@ -35,6 +29,24 @@ public class ParkingLotSystem {
      */
     public void welcomeMessage() {
         System.out.println("Welcome to Parking Lot Service Program...!! :-) ");
+    }
+
+    /**
+     * Purpose : To create method of registerOwner to Inform the owner
+     *
+     * @param observer : takes observer as parameter
+     */
+    public void registerParkingLotObserver(ParkingLotObserver observer) {
+        this.observers.add(observer);
+    }
+
+    /**
+     * Purpose : To register Airport Security
+     *
+     * @param airportSecurity : takes parameter as airportSecurity
+     */
+    public void registerSecurity(AirportSecurity airportSecurity) {
+        this.security = airportSecurity;
     }
 
     /**
@@ -55,10 +67,14 @@ public class ParkingLotSystem {
 
     public void parkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
         if (this.vehicle.size() == this.actualCapacity) {
-            owner.capacityIsFull();
+            for (ParkingLotObserver observer : observers) {
+                observer.parkingLotCapacity();
+            }
+//            owner.capacityIsFull();
+//            security.capacityIsFull();
             throw new ParkingLotSystemException("Parking Lot is Full");
         }
-
+        if (isVehicleParked(vehicle)) throw new ParkingLotSystemException("Vehicle already Parked");
         this.vehicle.add(vehicle);
     }
 
@@ -70,8 +86,11 @@ public class ParkingLotSystem {
      */
     public void unParkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
         if (this.vehicle == null) throw new ParkingLotSystemException("No such A Vehicle Found");
-        if (this.vehicle.contains(vehicle)) {
+        else if (this.vehicle.contains(vehicle)) {
             this.vehicle = null;
+            for (ParkingLotObserver observer : observers) {
+                observer.parkingLotCapacityAvailable();
+            }
         }
     }
 
@@ -94,6 +113,4 @@ public class ParkingLotSystem {
     public boolean isVehicleUnParked(Vehicle vehicle) {
         return this.vehicle == null;
     }
-
-
 }
