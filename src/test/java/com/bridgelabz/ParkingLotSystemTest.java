@@ -11,6 +11,7 @@ public class ParkingLotSystemTest {
     Vehicle vehicle = null;
     ParkingLotSystemOwner owner = null;
     AirportSecurity airportSecurity = null;
+    ParkingLotAttendant attendant = null;
     //    Object vehicle = null;
 
     @BeforeEach
@@ -18,6 +19,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem = new ParkingLotSystem(2);
         owner = new ParkingLotSystemOwner();
         airportSecurity = new AirportSecurity();
+        attendant = new ParkingLotAttendant();
 //        vehicle = new Object();
     }
 
@@ -131,5 +133,12 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkVehicle(vehicle2);
             parkingLotSystem.unParkVehicle(vehicle2);
         }, "Parking Lot is Full");
+    }
+
+    @Test
+    void givenAVehicleToAttendant_WhenParked_ShouldReturnTrue() throws ParkingLotSystemException {
+        Vehicle vehicle = new Vehicle("KA-9671", "Black", "Scorpio");
+        attendant.parkedByAttendant(vehicle);
+        Assertions.assertTrue(parkingLotSystem.isVehicleParked(vehicle));
     }
 }
