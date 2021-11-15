@@ -10,11 +10,13 @@ public class Vehicle {
     private final String name;
     private final String vehicleNumber;
     private final String vehicleColor;
+    private final String parkedTime;
 
-    public Vehicle(String vehicleNumber, String vehicleColor, String name) {
+    public Vehicle(String vehicleNumber, String vehicleColor, String name, String parkedTime) {
         this.name = name;
         this.vehicleNumber = vehicleNumber;
         this.vehicleColor = vehicleColor;
+        this.parkedTime = parkedTime;
     }
 
     // Generated Getters
@@ -28,5 +30,9 @@ public class Vehicle {
 
     public String getVehicleColor() {
         return vehicleColor;
+    }
+
+    public String getParkedTime() {
+        return parkedTime;
     }
 }
