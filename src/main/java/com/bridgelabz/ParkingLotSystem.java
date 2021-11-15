@@ -124,4 +124,16 @@ public class ParkingLotSystem {
     public boolean isFullCapacity() {
         return ParkingLotSystem.vehicles.size() == this.actualCapacity;
     }
+    /**
+     * Purpose : To get parking time of vehicle
+     *
+     * @param vehicle : takes vehicle
+     * @return : the parking time if the vehicle is parked
+     */
+    public String getVehicleParkingTime(Vehicle vehicle) {
+        if (isVehicleParked(vehicle)) {
+            return vehicle.getParkedTime();
+        }
+        return null;
+    }
 }
