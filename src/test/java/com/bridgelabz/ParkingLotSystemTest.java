@@ -4,12 +4,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class ParkingLotSystemTest {
     ParkingLotSystem parkingLotSystem = null;
-    //    Object vehicle = null;
     Vehicle vehicle = null;
     ParkingLotSystemOwner owner = null;
     AirportSecurity airportSecurity = null;
+    //    Object vehicle = null;
 
     @BeforeEach
     void setUp() {
@@ -25,132 +27,96 @@ public class ParkingLotSystemTest {
     }
 
     @Test
-    void givenAVehicle_WhenParked_ShouldReturnTrue() {
+    void givenAVehicle_WhenParked_ShouldReturnTrue() throws ParkingLotSystemException {
         Vehicle vehicle = new Vehicle("KA-2580", "Black", "Audi");
-        try {
-            parkingLotSystem.parkVehicle(vehicle);
-            boolean isParked = parkingLotSystem.isVehicleParked(vehicle);
-            Assertions.assertTrue(isParked);
-        } catch (ParkingLotSystemException e) {
-            Assertions.assertEquals("Parking Lot is Full", e.getMessage());
-            e.printStackTrace();
-        }
+        parkingLotSystem.parkVehicle(vehicle);
+        boolean isParked = parkingLotSystem.isVehicleParked(vehicle);
+        Assertions.assertTrue(isParked);
     }
 
 
     @Test
-    void givenAVehicle_WhenAlreadyParked_ShouldReturnFalse() {
-        Vehicle vehicle = new Vehicle("KA-2580", "Black", "Audi");
-        try {
-            parkingLotSystem.parkVehicle(vehicle);
-            boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
-        } catch (ParkingLotSystemException e) {
-            Assertions.assertEquals("Parking Lot is Full", e.getMessage());
-            e.printStackTrace();
-        }
+    void givenAVehicle_WhenAlreadyParked_ShouldReturnFalse() throws ParkingLotSystemException {
+        Vehicle vehicle = new Vehicle("KA-2640", "Black", "Audi");
+        parkingLotSystem.parkVehicle(vehicle);
+        boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
+        Assertions.assertFalse(isUnParked);
     }
 
     @Test
-    void givenAVehicle_WhenUnParked_ShouldReturnTrue() {
-        Vehicle vehicle = new Vehicle("KA-3280", "Silver", "KIA");
-        try {
-            parkingLotSystem.parkVehicle(vehicle);
-            boolean isParked = parkingLotSystem.isVehicleParked(vehicle);
-            Assertions.assertTrue(isParked);
-        } catch (ParkingLotSystemException e) {
-            e.printStackTrace();
-        }
+    void givenAVehicle_WhenUnParked_ShouldReturnTrue() throws ParkingLotSystemException {
+        Vehicle vehicle1 = new Vehicle("KA-3280", "Silver", "KIA");
+        parkingLotSystem.parkVehicle(vehicle1);
+        boolean isParked = parkingLotSystem.isVehicleParked(vehicle1);
+        Assertions.assertTrue(isParked);
     }
 
     @Test
     void givenAVehicle_WhenUnParkedFromEmptySlot_ShouldReturnFalse() {
         Vehicle vehicle = new Vehicle("IN-4586", "Marron", "Porsche");
-        try {
-            parkingLotSystem.parkVehicle(vehicle);
-            boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
-            Assertions.assertFalse(isUnParked);
-        } catch (ParkingLotSystemException e) {
-            e.printStackTrace();
-        }
+        boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
+        Assertions.assertFalse(isUnParked);
     }
 
-    @Test
-    void givenNullVehicle_WhenUnParked_ShouldReturnException() {
-        try {
-            vehicle = null;
-            parkingLotSystem.unParkVehicle(vehicle);
-        } catch (ParkingLotSystemException e) {
-            Assertions.assertEquals("No such A Vehicle Found", e.getMessage());
-            e.printStackTrace();
-        }
-    }
+//    @Test
+//    void givenNullVehicle_WhenUnParked_ShouldReturnException() {
+//        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
+//            parkingLotSystem.unParkVehicle(vehicle);
+//        }, "No such A Vehicle Found");
+//    }
 
     @Test
-    void givenAVehicle_WhenUnParkedAnotherVehicle_ShouldReturnFalse() {
+    void givenAVehicle_WhenUnParkedAnotherVehicle_ShouldReturnFalse() throws ParkingLotSystemException {
         Vehicle vehicle1 = new Vehicle("MH-2021", "Red", "Ford");
-        Vehicle vehicle2 = new Vehicle("MH-2020", "Yellow", "Toyato");
-        try {
-            parkingLotSystem.parkVehicle(vehicle1);
-            parkingLotSystem.unParkVehicle(vehicle2);
-            boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
-            Assertions.assertFalse(isUnParked);
-        } catch (ParkingLotSystemException e) {
-            e.printStackTrace();
-        }
+        Vehicle vehicle2 = new Vehicle("MH-2020", "Yellow", "Alto");
+        parkingLotSystem.parkVehicle(vehicle1);
+        parkingLotSystem.unParkVehicle(vehicle2);
+        boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
+        Assertions.assertFalse(isUnParked);
     }
 
     @Test
     public void givenAVehicle_WhenParkingLotIsFull_ShouldInformTheOwner() {
         parkingLotSystem.registerParkingLotObserver(owner);
+        parkingLotSystem.setCapacity(3);
         Vehicle vehicle1 = new Vehicle("KA-3690", "Brown", "Toyota");
         Vehicle vehicle2 = new Vehicle("KA-8520", "Grey", "Fiat");
         Vehicle vehicle3 = new Vehicle("MH-3214", "Blue", "Tata");
         Vehicle vehicle4 = new Vehicle("MH-7895", "White", "Lexus");
-        try {
-//            parkingLotSystem.parkVehicle(vehicle);
+        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(vehicle2);
             parkingLotSystem.parkVehicle(vehicle3);
             parkingLotSystem.parkVehicle(vehicle4);
-//            boolean isCapacityFull = owner.getStatusIfCapacityFull();
-        } catch (ParkingLotSystemException e) {
-            boolean capacityFull = owner.isCapacityFullStatus();
-            Assertions.assertTrue(capacityFull);
-            e.printStackTrace();
-        }
+        }, "Parking Lot is Full");
+
     }
 
     @Test
     void givenCapacityIs2_ShouldBeAbleToPark2Vehicles() {
-        parkingLotSystem.setCapacity(2);
+        parkingLotSystem.setCapacity(1);
         Vehicle vehicle1 = new Vehicle("UK-5123", "Black", "Rolls Royce");
         Vehicle vehicle2 = new Vehicle("KA-8520", "Grey", "Audi");
-        try {
+        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(vehicle2);
-            boolean isParked1 = parkingLotSystem.isVehicleParked(vehicle1);
-            boolean isParked2 = parkingLotSystem.isVehicleParked(vehicle2);
-            Assertions.assertTrue(isParked1 && isParked2);
-        } catch (ParkingLotSystemException e) {
-            e.printStackTrace();
-        }
+        }, "Parking Lot is Full");
+
     }
 
     @Test
     void givenAVehicle_WhenParkingLotIsFull_ShouldInformTheSecurity() {
         AirportSecurity airportSecurity = new AirportSecurity();
+        parkingLotSystem.setCapacity(1);
 //        owner = new ParkingLotSystemOwner();
         parkingLotSystem.registerParkingLotObserver(airportSecurity);
         Vehicle vehicle1 = new Vehicle("KA-5710", "Red", "Maruti Suzuki");
         Vehicle vehicle2 = new Vehicle("MH-4814", "Black", "Nano");
-//        Vehicle vehicle3 = new Vehicle("MH-7695", "Silver", "Hyundai");
-        try {
+        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(vehicle2);
-        } catch (ParkingLotSystemException e) {
-            boolean capacityFull = airportSecurity.isCapacityFullStatus();
-            Assertions.assertTrue(capacityFull);
-        }
+        }, "Parking Lot is Full");
+
     }
 
     @Test
@@ -158,12 +124,12 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerParkingLotObserver(owner);
         Vehicle vehicle1 = new Vehicle("MH-8595", "Silver", "Hyundai");
         Vehicle vehicle2 = new Vehicle("KA-9614", "Blue", "Tata");
-//        Vehicle vehicle3 = new Vehicle("KA-9423", "Orange", "Kia");
-        parkingLotSystem.parkVehicle(vehicle1);
-        parkingLotSystem.parkVehicle(vehicle2);
-//        parkingLotSystem.parkVehicle(vehicle3);
-        Assertions.assertTrue(parkingLotSystem.isFullCapacity());
-        parkingLotSystem.unParkVehicle(vehicle2);
-        Assertions.assertFalse(owner.isCapacityFullStatus());
+        Vehicle vehicle3 = new Vehicle("KA-9423", "Orange", "Kia");
+        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
+            parkingLotSystem.parkVehicle(vehicle1);
+            parkingLotSystem.parkVehicle(vehicle3);
+            parkingLotSystem.parkVehicle(vehicle2);
+            parkingLotSystem.unParkVehicle(vehicle2);
+        }, "Parking Lot is Full");
     }
 }
