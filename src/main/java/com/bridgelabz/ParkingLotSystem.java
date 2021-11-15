@@ -124,6 +124,21 @@ public class ParkingLotSystem {
     public boolean isFullCapacity() {
         return ParkingLotSystem.vehicles.size() == this.actualCapacity;
     }
+
+    /**
+     * Purpose : To Find vehicle to go home.
+     *
+     * @param vehicle : takes vehicle
+     * @throws ParkingLotSystemException : No Vehicle is found to go home
+     */
+    public int findVehicle(Vehicle vehicle) throws ParkingLotSystemException {
+        if (isVehicleParked(vehicle))
+            for (Vehicle findVehicle : vehicles) {
+                if (findVehicle.equals(vehicle))
+                    return vehicles.indexOf(findVehicle);
+            }
+        throw new ParkingLotSystemException("No Vehicle is found to go home");
+    }
     /**
      * Purpose : To get parking time of vehicle
      *
@@ -136,4 +151,5 @@ public class ParkingLotSystem {
         }
         return null;
     }
+
 }
