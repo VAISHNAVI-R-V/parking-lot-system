@@ -22,7 +22,7 @@ public class AirportSecurity implements ParkingLotObserver {
      * Purpose : This Method is created to check the Full capacity of Parking lot
      */
     @Override
-    public void parkingLotCapacity() {
+    public void isFullParkingLotCapacity() {
         isFullCapacity = true;
     }
 
@@ -30,7 +30,7 @@ public class AirportSecurity implements ParkingLotObserver {
      * Purpose : This Method is created to check the Full capacity is available in Parking lot
      */
     @Override
-    public void parkingLotCapacityAvailable() {
+    public void isAvailableParkingLotCapacity() {
         isFullCapacity = false;
     }
 }

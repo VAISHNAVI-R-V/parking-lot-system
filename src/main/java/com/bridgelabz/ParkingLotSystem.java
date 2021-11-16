@@ -12,7 +12,7 @@ import java.util.List;
 public class ParkingLotSystem {
     private ParkingLotSystemOwner owner;
     private int actualCapacity;
-    private static List<Vehicle> vehicles;
+    public static List<Vehicle> vehicles;
     private List<ParkingLotObserver> observers;
     private AirportSecurity security;
     private Vehicle vehicle;
@@ -58,16 +58,16 @@ public class ParkingLotSystem {
     }
 
     /**
-     * Purpose : To Park the Vehicle in Parking Lot
+     * Purpose : To Park the Vehicle in Parking Lot.
      *
-     * @param vehicle : takes vehicle as parameter
-     * @throws : ParkingLotSystemException
+     * @param vehicle : vehicle is used to park
+     * @throws : ParkingLotSystemException : Exception Type Message.
      */
-
     public void parkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
         if (ParkingLotSystem.vehicles.size() == this.actualCapacity) {
+            ParkingLotSystem.vehicles.add(vehicle);
             for (ParkingLotObserver observer : observers) {
-                observer.parkingLotCapacity();
+                observer.isFullParkingLotCapacity();
             }
             throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.PARKING_LOT_IS_FULL,
                     "Parking Lot is Full");
@@ -79,10 +79,10 @@ public class ParkingLotSystem {
     }
 
     /**
-     * Purpose : To UnParked the Vehicle from parking lot
+     * Purpose : To UnParked the Vehicle from parking lot.
      *
-     * @param vehicle : takes vehicle as parameter
-     * @throws : ParkingLotSystemException
+     * @param vehicle : vehicle is used to unpark
+     * @throws : ParkingLotSystemException : Exception Type Message.
      */
     public void unParkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
         if (ParkingLotSystem.vehicles == null)
@@ -91,7 +91,7 @@ public class ParkingLotSystem {
         else if (ParkingLotSystem.vehicles.contains(vehicle)) {
             ParkingLotSystem.vehicles = null;
             for (ParkingLotObserver observer : observers) {
-                observer.parkingLotCapacityAvailable();
+                observer.isAvailableParkingLotCapacity();
             }
         }
     }
@@ -99,7 +99,7 @@ public class ParkingLotSystem {
     /**
      * Purpose : To Check Vehicle is Parked Or Not
      *
-     * @param vehicle : given Vehicle as parameter
+     * @param vehicle : vehicle is used to park
      * @return : Vehicle Equals
      */
     public boolean isVehicleParked(Vehicle vehicle) {
@@ -109,7 +109,7 @@ public class ParkingLotSystem {
     /**
      * Purpose : To Check a Vehicle is UnParked Or Not
      *
-     * @param vehicle : takes the Vehicle Param
+     * @param vehicle : vehicle is used to unpark
      * @return : UnParked vehicle.
      */
     public boolean isVehicleUnParked(Vehicle vehicle) {
@@ -128,7 +128,7 @@ public class ParkingLotSystem {
     /**
      * Purpose : To Find vehicle to go home.
      *
-     * @param vehicle : takes vehicle
+     * @param vehicle : vehicle is used to find vehicle.
      * @throws ParkingLotSystemException : No Vehicle is found to go home
      */
     public int findVehicle(Vehicle vehicle) throws ParkingLotSystemException {
@@ -144,7 +144,7 @@ public class ParkingLotSystem {
     /**
      * Purpose : To get parking time of vehicle
      *
-     * @param vehicle : takes vehicle
+     * @param vehicle : vehicle is used to get vehicle class.
      * @return : the parking time if the vehicle is parked
      */
     public String getVehicleParkingTime(Vehicle vehicle) {

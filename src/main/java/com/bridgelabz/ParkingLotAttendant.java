@@ -12,7 +12,7 @@ public class ParkingLotAttendant {
     /**
      * Purpose :  To park the car by attendant in parking lot
      *
-     * @param vehicle : takes vehicle as a parameter
+     * @param vehicle : vehicle is parkedByAttendant
      * @throws ParkingLotSystemException : when the parking lot is full
      */
     public void parkedByAttendant(Vehicle vehicle) throws ParkingLotSystemException {
@@ -22,7 +22,7 @@ public class ParkingLotAttendant {
     /**
      * Purpose : To unpark the car by attendant in parking lot
      *
-     * @param vehicle : takes vehicle as a parameter
+     * @param vehicle : vehicle is unparkedByAttendant
      * @throws ParkingLotSystemException : when there is no vehicle to unpark
      */
     public void unparkedByAttendant(Vehicle vehicle) throws ParkingLotSystemException {
