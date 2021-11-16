@@ -3,14 +3,13 @@ package com.bridgelabz;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/*****************************************************************************************
  * Purpose: To Implement the PARKING LOT SYSTEM program.
  *
  * @author : VAISHNAVI R. VISHWAKARMA.
  * @since : 09-11-2021.
- */
+ *****************************************************************************************/
 public class ParkingLotSystem {
-    //    private int currentCapacity;
     private ParkingLotSystemOwner owner;
     private int actualCapacity;
     private static List<Vehicle> vehicles;
@@ -21,7 +20,6 @@ public class ParkingLotSystem {
     public ParkingLotSystem(int capacity) {
         this.observers = new ArrayList<>();
         vehicles = new ArrayList<>();
-//        this.currentCapacity = 0;
         this.actualCapacity = capacity;
     }
 
@@ -71,11 +69,11 @@ public class ParkingLotSystem {
             for (ParkingLotObserver observer : observers) {
                 observer.parkingLotCapacity();
             }
-//            owner.capacityIsFull();
-//            security.capacityIsFull();
-            throw new ParkingLotSystemException("Parking Lot is Full");
+            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.PARKING_LOT_IS_FULL,
+                    "Parking Lot is Full");
         } else if (isVehicleParked(vehicle)) {
-            throw new ParkingLotSystemException("Vehicle already Parked");
+            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
+                    "Vehicle already Parked");
         }
         ParkingLotSystem.vehicles.add(vehicle);
     }
@@ -87,7 +85,9 @@ public class ParkingLotSystem {
      * @throws : ParkingLotSystemException
      */
     public void unParkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
-        if (ParkingLotSystem.vehicles == null) throw new ParkingLotSystemException("No such A Vehicle Found");
+        if (ParkingLotSystem.vehicles == null)
+            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
+                    "No such A Vehicle Found");
         else if (ParkingLotSystem.vehicles.contains(vehicle)) {
             ParkingLotSystem.vehicles = null;
             for (ParkingLotObserver observer : observers) {
@@ -137,8 +137,10 @@ public class ParkingLotSystem {
                 if (findVehicle.equals(vehicle))
                     return vehicles.indexOf(findVehicle);
             }
-        throw new ParkingLotSystemException("No Vehicle is found to go home");
+        throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
+                "No Vehicle is found to go home");
     }
+
     /**
      * Purpose : To get parking time of vehicle
      *
@@ -151,5 +153,4 @@ public class ParkingLotSystem {
         }
         return null;
     }
-
 }

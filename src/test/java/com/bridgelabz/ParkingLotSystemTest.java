@@ -6,6 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/*****************************************************************************************
+ * Purpose: To Implement the PARKING LOT SYSTEM TEST.
+ *
+ * @author : VAISHNAVI R. VISHWAKARMA.
+ * @since : 09-11-2021.
+ *****************************************************************************************/
+
 public class ParkingLotSystemTest {
     ParkingLotSystem parkingLotSystem = null;
     Vehicle vehicle = null;
@@ -33,7 +40,6 @@ public class ParkingLotSystemTest {
         boolean isParked = parkingLotSystem.isVehicleParked(vehicle);
         Assertions.assertTrue(isParked);
     }
-
 
     @Test
     void givenAVehicle_WhenAlreadyParked_ShouldReturnFalse() throws ParkingLotSystemException {
@@ -104,6 +110,7 @@ public class ParkingLotSystemTest {
         Vehicle vehicle1 = new Vehicle("MH-8595", "Silver", "Hyundai", "5:15");
         Vehicle vehicle2 = new Vehicle("KA-9614", "Blue", "Tata", "12:45");
         Vehicle vehicle3 = new Vehicle("KA-9423", "Orange", "Kia", "1:30");
+//        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
         Assertions.assertThrows(ParkingLotSystemException.class, () -> {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(vehicle3);
@@ -134,5 +141,4 @@ public class ParkingLotSystemTest {
         String vehicleParkedTime = parkingLotSystem.getVehicleParkingTime(vehicle);
         Assertions.assertEquals("12:00", vehicleParkedTime);
     }
-
 }

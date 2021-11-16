@@ -1,11 +1,11 @@
 package com.bridgelabz;
 
-/**
+/************************************************************************************
  * Purpose : To create AirportSecurity class to behave as AirportSecurity Observer.
  *
  * @author : VAISHNAVI R. VISHWAKRMA
  * @since : 13-11-2021.
- */
+ **********************************************************************************/
 public class AirportSecurity implements ParkingLotObserver {
     private boolean isFullCapacity;
 

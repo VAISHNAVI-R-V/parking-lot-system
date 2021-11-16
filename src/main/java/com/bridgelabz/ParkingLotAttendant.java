@@ -1,11 +1,11 @@
 package com.bridgelabz;
-/**
+/************************************************************************
  * Purpose : To implement that the vehicles are
  * parked by attender or unpark by attender
  *
  * @author : VAISHNAVI R. VISHWAKRMA
  * @since : 2021-11-14
- */
+ ***********************************************************************/
 public class ParkingLotAttendant {
     ParkingLotSystem parkingLotSystem = new ParkingLotSystem(2);
 
