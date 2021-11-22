@@ -108,7 +108,7 @@ public class ParkingLotSystemTest {
     void givenWhenParkingLotSpaceAvailableAfterFull_ShouldReturnTrue() throws ParkingLotSystemException {
         parkingLotSystem.registerParkingLotObserver(owner);
         Vehicle vehicle1 = new Vehicle("MH-8595", "Silver", "Hyundai", "5:15");
-        Vehicle vehicle2 = new Vehicle("KA-9614", "Blue", "Tata", "12:45");
+        Vehicle vehicle2 = new Vehicle("KA-9614", "Blue", "BMW", "12:45");
         Vehicle vehicle3 = new Vehicle("KA-9423", "Orange", "Kia", "1:30");
 //        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
         Assertions.assertThrows(ParkingLotSystemException.class, () -> {
@@ -136,9 +136,23 @@ public class ParkingLotSystemTest {
 
     @Test
     void givenAVehicle_WhenParked_ShouldReturnParkingTime() throws ParkingLotSystemException {
-        Vehicle vehicle = new Vehicle("KA-9671", "Black", "Scorpio", "12:00");
+        Vehicle vehicle = new Vehicle("KA-9671", "Black", "BMW", "12:00");
         parkingLotSystem.parkVehicle(vehicle);
         String vehicleParkedTime = parkingLotSystem.getVehicleParkingTime(vehicle);
         Assertions.assertEquals("12:00", vehicleParkedTime);
     }
+
+    @Test
+    void givenVehicle_WhenWhiteColoredVehicleSearched_ShouldReturnTheLocation() throws ParkingLotSystemException {
+        Vehicle vehicle1 = new Vehicle("MH-8595", "White", "Hyundai", "5:55");
+        Vehicle vehicle2 = new Vehicle("KA-9614", "Black", "BMW", "12:05");
+        parkingLotSystem.parkVehicle(vehicle1);
+        parkingLotSystem.parkVehicle(vehicle2);
+        int whiteColoredVehicle1 = parkingLotSystem.getWhiteColoredVehicle(vehicle1);
+        Assertions.assertEquals(0, whiteColoredVehicle1);
+        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
+            parkingLotSystem.parkVehicle(vehicle2);
+        }, "No such A Vehicle Found");
+    }
 }
+

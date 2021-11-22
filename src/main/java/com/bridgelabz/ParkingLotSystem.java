@@ -10,6 +10,8 @@ import java.util.List;
  * @since : 09-11-2021.
  *****************************************************************************************/
 public class ParkingLotSystem {
+    //    private static List<ParkingSlots> parkingSlots1;
+//    private static List<ParkingSlots> parkingSlots2;
     private ParkingLotSystemOwner owner;
     private int actualCapacity;
     public static List<Vehicle> vehicles;
@@ -17,7 +19,10 @@ public class ParkingLotSystem {
     private AirportSecurity security;
     private Vehicle vehicle;
 
+
     public ParkingLotSystem(int capacity) {
+//        parkingSlots1 = new ArrayList();
+//        parkingSlots2 = new ArrayList();
         this.observers = new ArrayList<>();
         vehicles = new ArrayList<>();
         this.actualCapacity = capacity;
@@ -31,18 +36,18 @@ public class ParkingLotSystem {
     }
 
     /**
-     * Purpose : To create method of registerOwner to Inform the owner
+     * Purpose : To create method of registerOwner to Inform the owner.
      *
-     * @param observer : takes observer as parameter
+     * @param observer : takes observer to register ParkingLot Observer.
      */
     public void registerParkingLotObserver(ParkingLotObserver observer) {
         this.observers.add(observer);
     }
 
     /**
-     * Purpose : To register Airport Security
+     * Purpose : To register Airport Security.
      *
-     * @param airportSecurity : takes parameter as airportSecurity
+     * @param airportSecurity : takes airportSecurity to register Security.
      */
     public void registerSecurity(AirportSecurity airportSecurity) {
         this.security = airportSecurity;
@@ -64,8 +69,7 @@ public class ParkingLotSystem {
      * @throws : ParkingLotSystemException : Exception Type Message.
      */
     public void parkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
-        if (ParkingLotSystem.vehicles.size() == this.actualCapacity) {
-            ParkingLotSystem.vehicles.add(vehicle);
+        if (vehicles.size() == this.actualCapacity) {
             for (ParkingLotObserver observer : observers) {
                 observer.isFullParkingLotCapacity();
             }
@@ -75,8 +79,9 @@ public class ParkingLotSystem {
             throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
                     "Vehicle already Parked");
         }
-        ParkingLotSystem.vehicles.add(vehicle);
+        vehicles.add(vehicle);
     }
+
 
     /**
      * Purpose : To UnParked the Vehicle from parking lot.
@@ -90,6 +95,8 @@ public class ParkingLotSystem {
                     "No such A Vehicle Found");
         else if (ParkingLotSystem.vehicles.contains(vehicle)) {
             ParkingLotSystem.vehicles = null;
+            ParkingLotSystem.vehicles.remove(vehicle);
+
             for (ParkingLotObserver observer : observers) {
                 observer.isAvailableParkingLotCapacity();
             }
@@ -152,5 +159,22 @@ public class ParkingLotSystem {
             return vehicle.getParkedTime();
         }
         return null;
+    }
+
+    /**
+     * Purpose : To know the location of parked white cars.
+     *
+     * @param vehicle : vehicle is used to get White Colored Vehicle.
+     * @return : index of White Colored Vehicle.
+     * @throws ParkingLotSystemException : No such A Vehicle Found.
+     */
+    public int getWhiteColoredVehicle(Vehicle vehicle) throws ParkingLotSystemException {
+        if (isVehicleParked(vehicle) && vehicle.getVehicleColor().equalsIgnoreCase("WHITE"))
+            for (Vehicle whiteColoredVehicle : vehicles) {
+                if (whiteColoredVehicle.equals(vehicle))
+                    return vehicles.indexOf(whiteColoredVehicle);
+            }
+        throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
+                "No such A Vehicle Found");
     }
 }
