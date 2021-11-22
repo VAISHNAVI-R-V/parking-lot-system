@@ -177,4 +177,23 @@ public class ParkingLotSystem {
         throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
                 "No such A Vehicle Found");
     }
+
+    /**
+     * Purpose : To know the location of parked Blue colored TOYOTA cars.
+     *
+     * @param vehicle : vehicle is used to get Blue Colored Toyota Vehicle.
+     * @return : index of Blue Colored Toyota Vehicle.
+     * @throws ParkingLotSystemException : No such A Vehicle Found.
+     */
+    public int getBlueColoredToyotaVehicle(Vehicle vehicle) throws ParkingLotSystemException {
+        if (isVehicleParked(vehicle) && vehicle.getVehicleColor().equalsIgnoreCase("Blue")
+                && vehicle.getName().equalsIgnoreCase("TOYOTA"))
+            for (Vehicle blueColoredToyotaVehicle : vehicles) {
+                if (blueColoredToyotaVehicle.equals(vehicle))
+                    return vehicles.indexOf(blueColoredToyotaVehicle);
+            }
+        throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
+                "No such A Vehicle Found");
+    }
+
 }
