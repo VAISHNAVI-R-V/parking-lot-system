@@ -168,5 +168,17 @@ public class ParkingLotSystemTest {
         }, "No such A Vehicle Found");
     }
 
+    @Test
+    void givenVehicle_WhenBlueColoredToyatoVehicleNumberPlate_Searched_ShouldReturnVehicleNumberPlate() throws ParkingLotSystemException {
+        Vehicle vehicle1 = new Vehicle("IN-5145", "Blue", "Toyota", "13:55");
+        Vehicle vehicle2 = new Vehicle("KA-6710", "White", "BMW", "2:05");
+        parkingLotSystem.parkVehicle(vehicle1);
+        parkingLotSystem.parkVehicle(vehicle2);
+        String vehicleNumberPlate = parkingLotSystem.getBlueColoredToyotaVehicleNumber(vehicle1);
+        Assertions.assertEquals(vehicle1.getVehicleNumber(), vehicleNumberPlate);
+        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
+            parkingLotSystem.getBlueColoredToyotaVehicleNumber(vehicle2);
+        }, "No such A Vehicle Found");
+    }
 }
 

@@ -196,4 +196,21 @@ public class ParkingLotSystem {
                 "No such A Vehicle Found");
     }
 
+    /**
+     * Purpose : To know the location of parked Blue colored TOYOTA cars and Plate Number.
+     *
+     * @param vehicle : vehicle is used to get Blue Colored Toyota VehicleNumber.
+     * @return : Blue Colored Toyota Vehicle Number.
+     * @throws ParkingLotSystemException : No such A Vehicle Found.
+     */
+    public String getBlueColoredToyotaVehicleNumber(Vehicle vehicle) throws ParkingLotSystemException {
+        if (isVehicleParked(vehicle) && vehicle.getVehicleColor().equalsIgnoreCase("Blue")
+                && vehicle.getName().equalsIgnoreCase("TOYOTA"))
+            for (Vehicle toyotaVehicleNumberPlate : vehicles) {
+                if (toyotaVehicleNumberPlate.equals(vehicle))
+                    return toyotaVehicleNumberPlate.getVehicleNumber();
+            }
+        throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
+                "No such A Vehicle Found");
+    }
 }
