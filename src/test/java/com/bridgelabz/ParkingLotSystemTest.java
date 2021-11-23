@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParkingLotSystemTest {
     ParkingLotSystem parkingLotSystem = null;
-//    Vehicle vehicle = null;
+    //    Vehicle vehicle = null;
     ParkingLotSystemOwner owner = null;
     AirportSecurity airportSecurity = null;
     ParkingLotAttendant attendant = null;
@@ -50,11 +50,12 @@ public class ParkingLotSystemTest {
     }
 
     @Test
-    void givenAVehicle_WhenUnParked_ShouldReturnTrue() throws ParkingLotSystemException {
+    void givenAVehicle_WhenUnParked_ShouldReturnFalse() throws ParkingLotSystemException {
         Vehicle vehicle1 = new Vehicle("KA-3280", "Silver", "KIA", "7:30");
         parkingLotSystem.parkVehicle(vehicle1);
-        boolean isParked = parkingLotSystem.isVehicleParked(vehicle1);
-        Assertions.assertTrue(isParked);
+        parkingLotSystem.unParkVehicle(vehicle1);
+        boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle1);
+        Assertions.assertFalse(isUnParked);
     }
 
     @Test
@@ -117,7 +118,7 @@ public class ParkingLotSystemTest {
         Vehicle vehicle2 = new Vehicle("KA-9614", "Blue", "BMW", "11:45");
         Vehicle vehicle3 = new Vehicle("KA-9654", "Blue", "BMW", "5:45");
         Vehicle vehicle4 = new Vehicle("KA-9023", "Orange", "Kia", "1:30");
-        Vehicle vehicle5 = new Vehicle("KA-6423", "Orange", "Kia", "1:20");
+        Vehicle vehicle5 = new Vehicle("KA-6423", "Orange", "alto", "1:20");
         Assertions.assertThrows(ParkingLotSystemException.class, () -> {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(vehicle2);
@@ -150,6 +151,16 @@ public class ParkingLotSystemTest {
         parkingLotSystem.parkVehicle(vehicle);
         String vehicleParkedTime = parkingLotSystem.getVehicleParkingTime(vehicle);
         Assertions.assertEquals("12:00", vehicleParkedTime);
+    }
+
+    @Test
+    void givenAVehicle_WhenParked_ShouldParkedVehicleEvenly() throws ParkingLotSystemException {
+        Vehicle vehicle1 = new Vehicle("IN-5211", "White", "Toyota", "9:35");
+        Vehicle vehicle2 = new Vehicle("IN-5281", "White", "BMW", "9:25");
+        parkingLotSystem.parkVehicle(vehicle1);
+        parkingLotSystem.parkVehicle(vehicle2);
+        Assertions.assertEquals(1, parkingLotSystem.findVehicle(vehicle1));
+        Assertions.assertEquals(2, parkingLotSystem.findVehicle(vehicle2));
     }
 }
 

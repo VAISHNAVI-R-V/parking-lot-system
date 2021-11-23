@@ -98,10 +98,12 @@ public class ParkingLotSystem {
         if (this.slotOfLot1 == this.actualCapacity && this.slotOfLot2 == this.actualCapacity) {
             for (ParkingLotObserver parkingLotSystemObserver : observers)
                 parkingLotSystemObserver.isFullParkingLotCapacity();
-            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.PARKING_LOT_IS_FULL, "Parking lot is full");
+            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.PARKING_LOT_IS_FULL,
+                    "Parking lot is full");
         }
         if (this.parkingLot1.containsValue(vehicle) || this.parkingLot2.containsValue(vehicle)) {
-            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE, "Vehicle already exist");
+            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
+                    "Vehicle already exist");
         }
         this.evenlyParkedVehicle(vehicle);
     }
