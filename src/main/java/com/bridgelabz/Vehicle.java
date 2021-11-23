@@ -11,12 +11,14 @@ public class Vehicle {
     private final String vehicleNumber;
     private final String vehicleColor;
     private final String parkedTime;
+    private boolean handicapped;
 
-    public Vehicle(String vehicleNumber, String vehicleColor, String name, String parkedTime) {
+    public Vehicle(String vehicleNumber, String vehicleColor, String name, String parkedTime /*boolean isHandicapped*/) {
         this.name = name;
         this.vehicleNumber = vehicleNumber;
         this.vehicleColor = vehicleColor;
         this.parkedTime = parkedTime;
+//        this.handicapped = isHandicapped;
     }
 
     // Generated Getters
@@ -35,4 +37,9 @@ public class Vehicle {
     public String getParkedTime() {
         return parkedTime;
     }
+//
+//    public boolean isHandicapped() {
+//        return handicapped;
+//    }
+    public enum Size {LARGE, SMALL, MEDIUM}
 }

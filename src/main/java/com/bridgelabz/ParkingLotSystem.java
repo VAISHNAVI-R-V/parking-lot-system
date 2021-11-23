@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /*****************************************************************************************
  * Purpose: To Implement the PARKING LOT SYSTEM program.
@@ -19,7 +17,7 @@ public class ParkingLotSystem {
     public static List<Vehicle> vehicles;
     private List<ParkingLotObserver> observers;
     private AirportSecurity security;
-//    private Vehicle vehicle;
+    //    private Vehicle vehicle;
     private Map<Integer, Vehicle> parkingLot1 = new HashMap<>();
     private Map<Integer, Vehicle> parkingLot2 = new HashMap<>();
     Map currentLot = parkingLot1;
@@ -207,5 +205,67 @@ public class ParkingLotSystem {
         }
         throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
                 "Vehicle is not found");
+    }
+
+    public int getVehicleBYColour(Vehicle vehicle, String color) throws ParkingLotSystemException {
+        if (this.parkingLot1.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        } else if (this.parkingLot2.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot2.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        }
+        throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
+                "White color vehicle not found");
+    }
+
+
+    public int getVehicleBYNameAndColour(Vehicle vehicle, String name, String color) throws ParkingLotSystemException {
+        if (this.parkingLot1.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color)
+                        && vehicleMap.getValue().getName().equalsIgnoreCase(name)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        } else if (this.parkingLot2.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot2.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color)
+                        && vehicleMap.getValue().getName().equalsIgnoreCase(name)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        }
+        throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
+                "Toyota blue color vehicle not found");
+    }
+
+
+    public int getVehicleBYBlueColorToyotaWithNumberPlate(Vehicle vehicle, String name, String color, String numberPlate) throws ParkingLotSystemException {
+        if (this.parkingLot1.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color) &&
+                        vehicleMap.getValue().getName().equalsIgnoreCase(name) &&
+                        vehicleMap.getValue().getVehicleNumber().equalsIgnoreCase(numberPlate)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        } else if (this.parkingLot2.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot2.entrySet()) {
+                if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color)
+                        && vehicleMap.getValue().getName().equalsIgnoreCase(name)
+                        && vehicleMap.getValue().getVehicleNumber().equalsIgnoreCase(numberPlate)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        }
+        throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.PARKING_LOT_IS_FULL,
+                "Toyota blue color vehicle not found");
     }
 }

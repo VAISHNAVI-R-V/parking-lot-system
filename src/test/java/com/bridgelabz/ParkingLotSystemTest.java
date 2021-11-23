@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParkingLotSystemTest {
     ParkingLotSystem parkingLotSystem = null;
-    //    Vehicle vehicle = null;
     ParkingLotSystemOwner owner = null;
     AirportSecurity airportSecurity = null;
     ParkingLotAttendant attendant = null;
@@ -162,5 +161,44 @@ public class ParkingLotSystemTest {
         Assertions.assertEquals(1, parkingLotSystem.findVehicle(vehicle1));
         Assertions.assertEquals(2, parkingLotSystem.findVehicle(vehicle2));
     }
+
+    @Test
+    public void givenAVehicle_WhenParked_ShouldReturnThePositionOfWhiteColorVehicle() throws ParkingLotSystemException {
+        Vehicle vehicle1 = new Vehicle("KA-2654", "White", "BMW", "5:45");
+        Vehicle vehicle2 = new Vehicle("KA-1023", "Orange", "Kia", "1:30");
+        parkingLotSystem.parkVehicle(vehicle1);
+        Assertions.assertEquals(1, parkingLotSystem.getVehicleBYColour(vehicle1, "White"));
+        parkingLotSystem.parkVehicle(vehicle2);
+        Assertions.assertThrows(ParkingLotSystemException.class, () -> parkingLotSystem.getVehicleBYColour(vehicle2,
+                "White"));
+    }
+
+    @Test
+    public void givenAVehicle_WhenParked_ShouldReturnThePositionOfToyotaBlueColorVehicle()
+            throws ParkingLotSystemException {
+        Vehicle vehicle1 = new Vehicle("KA-1023", "Blue", "Toyota", "1:30");
+        Vehicle vehicle2 = new Vehicle("KA-1023", "Orange", "Kia", "1:30");
+        parkingLotSystem.parkVehicle(vehicle1);
+        Assertions.assertEquals(1, parkingLotSystem.getVehicleBYNameAndColour
+                (vehicle1, "Toyota", "Blue"));
+        parkingLotSystem.parkVehicle(vehicle2);
+        Assertions.assertThrows(ParkingLotSystemException.class, () ->
+                parkingLotSystem.getVehicleBYNameAndColour(vehicle2, "Toyota", "Blue"));
+    }
+
+    @Test
+    public void givenAVehicle_WhenParked_ShouldReturnThePositionOfToyotaBlueColorVehicleWithNumberPlate()
+            throws ParkingLotSystemException {
+        Vehicle vehicle1 = new Vehicle("KA-2221", "Blue", "Toyota", "6:15");
+        Vehicle vehicle2 = new Vehicle("MH-2020", "Yellow", "Alto", "14:15");
+        parkingLotSystem.parkVehicle(vehicle1);
+        Assertions.assertEquals(1, parkingLotSystem.getVehicleBYBlueColorToyotaWithNumberPlate
+                (vehicle1, "Toyota", "Blue", "KA-2221"));
+        parkingLotSystem.parkVehicle(vehicle2);
+        Assertions.assertThrows(ParkingLotSystemException.class, () ->
+                parkingLotSystem.getVehicleBYBlueColorToyotaWithNumberPlate
+                        (vehicle2, "Toyota", "Blue", "MH-2020"));
+    }
+
 }
 

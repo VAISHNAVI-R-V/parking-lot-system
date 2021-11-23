@@ -6,7 +6,7 @@ package com.bridgelabz;
  * @author VAISHNAVI R. VISHWAKARMA
  * @since 2021-11-10
  *******************************************************************************/
-public class ParkingLotSystemException extends Exception {
+public class ParkingLotSystemException extends RuntimeException {
     public ExceptionType exceptionType;
 
     public ParkingLotSystemException(ExceptionType exceptionType, String message) {
