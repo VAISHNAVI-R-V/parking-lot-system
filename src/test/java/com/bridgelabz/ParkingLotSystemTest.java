@@ -200,5 +200,17 @@ public class ParkingLotSystemTest {
                         (vehicle2, "Toyota", "Blue", "MH-2020"));
     }
 
+    @Test
+    public void givenAVehicle_WhenParked_ShouldReturnBMWVehicle()
+            throws ParkingLotSystemException {
+        Vehicle vehicle1 = new Vehicle("KA-2561", "Blue", "BMW", "7:05");
+        Vehicle vehicle2 = new Vehicle("MH-2620", "Yellow", "Alto", "6:45");
+        parkingLotSystem.parkVehicle(vehicle1);
+        Assertions.assertEquals(1, parkingLotSystem.getBMWVehicle(vehicle1, "BMW"));
+        parkingLotSystem.parkVehicle(vehicle2);
+        Assertions.assertThrows(ParkingLotSystemException.class, () ->
+                parkingLotSystem.getBMWVehicle(vehicle2, "BMW"));
+
+    }
 }
 

@@ -268,4 +268,22 @@ public class ParkingLotSystem {
         throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.PARKING_LOT_IS_FULL,
                 "Toyota blue color vehicle not found");
     }
+
+    public int getBMWVehicle(Vehicle vehicle, String name) throws ParkingLotSystemException {
+        if (this.parkingLot1.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
+                if (vehicleMap.getValue().getName().equalsIgnoreCase(name)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        } else if (this.parkingLot2.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot2.entrySet()) {
+                if (vehicleMap.getValue().getName().equalsIgnoreCase(name)) {
+                    return vehicleMap.getKey();
+                }
+            }
+        }
+        throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
+                "BMW vehicle not found");
+    }
 }
