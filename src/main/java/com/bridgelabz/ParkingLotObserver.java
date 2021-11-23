@@ -8,8 +8,8 @@ package com.bridgelabz;
  * @since : 2021-11-13
  ***************************************************************************/
 public interface ParkingLotObserver {
-    void isFullParkingLotCapacity();
+    boolean isFullParkingLotCapacity();
 
-    void isAvailableParkingLotCapacity();
+    boolean isAvailableParkingLotCapacity();
 
 }

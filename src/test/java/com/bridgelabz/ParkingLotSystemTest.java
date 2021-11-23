@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParkingLotSystemTest {
     ParkingLotSystem parkingLotSystem = null;
-    Vehicle vehicle = null;
+//    Vehicle vehicle = null;
     ParkingLotSystemOwner owner = null;
     AirportSecurity airportSecurity = null;
     ParkingLotAttendant attendant = null;
@@ -61,7 +61,7 @@ public class ParkingLotSystemTest {
     void givenAVehicle_WhenUnParkedFromEmptySlot_ShouldReturnFalse() {
         Vehicle vehicle = new Vehicle("IN-4586", "Marron", "Porsche", "16:00");
         boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
-        Assertions.assertFalse(isUnParked);
+        Assertions.assertTrue(isUnParked);
     }
 
     @Test
@@ -69,38 +69,44 @@ public class ParkingLotSystemTest {
         Vehicle vehicle1 = new Vehicle("MH-2021", "Red", "Ford", "6:15");
         Vehicle vehicle2 = new Vehicle("MH-2020", "Yellow", "Alto", "14:15");
         parkingLotSystem.parkVehicle(vehicle1);
+        parkingLotSystem.parkVehicle(vehicle2);
         parkingLotSystem.unParkVehicle(vehicle2);
-        boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
+        boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle2);
         Assertions.assertFalse(isUnParked);
     }
 
     @Test
     public void givenAVehicle_WhenParkingLotIsFull_ShouldInformTheOwner() {
         parkingLotSystem.registerParkingLotObserver(owner);
-        parkingLotSystem.setCapacity(3);
         Vehicle vehicle1 = new Vehicle("KA-3690", "Brown", "Toyota", "13:50");
         Vehicle vehicle2 = new Vehicle("KA-8520", "Grey", "Fiat", "3:35");
         Vehicle vehicle3 = new Vehicle("MH-3214", "Blue", "Tata", "4:00");
         Vehicle vehicle4 = new Vehicle("MH-7895", "White", "Lexus", "18:00");
+        Vehicle vehicle5 = new Vehicle("MH-7095", "White", "BMW", "18:10");
         Assertions.assertThrows(ParkingLotSystemException.class, () -> {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(vehicle2);
             parkingLotSystem.parkVehicle(vehicle3);
             parkingLotSystem.parkVehicle(vehicle4);
+            parkingLotSystem.parkVehicle(vehicle5);
         }, "Parking Lot is Full");
-
     }
 
     @Test
     void givenAVehicle_WhenParkingLotIsFull_ShouldInformTheSecurity() {
         AirportSecurity airportSecurity = new AirportSecurity();
-        parkingLotSystem.setCapacity(1);
         parkingLotSystem.registerParkingLotObserver(airportSecurity);
-        Vehicle vehicle1 = new Vehicle("KA-5710", "Red", "Maruti Suzuki", "14:45");
-        Vehicle vehicle2 = new Vehicle("MH-4814", "Black", "Nano", "2:00");
+        Vehicle vehicle1 = new Vehicle("KA-5710", "Red", "Maruti Suzuki", "2:45");
+        Vehicle vehicle2 = new Vehicle("KA-5510", "Red", "BMW", "1:45");
+        Vehicle vehicle3 = new Vehicle("KA-5210", "White", "Alto", "4:05");
+        Vehicle vehicle4 = new Vehicle("KA-5730", "Red", "Maruti Suzuki", "14:45");
+        Vehicle vehicle5 = new Vehicle("MH-4814", "Black", "Nano", "2:00");
         Assertions.assertThrows(ParkingLotSystemException.class, () -> {
             parkingLotSystem.parkVehicle(vehicle1);
             parkingLotSystem.parkVehicle(vehicle2);
+            parkingLotSystem.parkVehicle(vehicle3);
+            parkingLotSystem.parkVehicle(vehicle4);
+            parkingLotSystem.parkVehicle(vehicle5);
         }, "Parking Lot is Full");
     }
 
@@ -108,15 +114,19 @@ public class ParkingLotSystemTest {
     void givenWhenParkingLotSpaceAvailableAfterFull_ShouldReturnTrue() throws ParkingLotSystemException {
         parkingLotSystem.registerParkingLotObserver(owner);
         Vehicle vehicle1 = new Vehicle("MH-8595", "Silver", "Hyundai", "5:15");
-        Vehicle vehicle2 = new Vehicle("KA-9614", "Blue", "BMW", "12:45");
-        Vehicle vehicle3 = new Vehicle("KA-9423", "Orange", "Kia", "1:30");
-//        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
+        Vehicle vehicle2 = new Vehicle("KA-9614", "Blue", "BMW", "11:45");
+        Vehicle vehicle3 = new Vehicle("KA-9654", "Blue", "BMW", "5:45");
+        Vehicle vehicle4 = new Vehicle("KA-9023", "Orange", "Kia", "1:30");
+        Vehicle vehicle5 = new Vehicle("KA-6423", "Orange", "Kia", "1:20");
         Assertions.assertThrows(ParkingLotSystemException.class, () -> {
             parkingLotSystem.parkVehicle(vehicle1);
-            parkingLotSystem.parkVehicle(vehicle3);
             parkingLotSystem.parkVehicle(vehicle2);
-            parkingLotSystem.unParkVehicle(vehicle2);
+            parkingLotSystem.parkVehicle(vehicle3);
+            parkingLotSystem.parkVehicle(vehicle4);
+            parkingLotSystem.parkVehicle(vehicle5);
         }, "Parking Lot is Full");
+        parkingLotSystem.unParkVehicle(vehicle2);
+        Assertions.assertFalse(owner.isAvailableParkingLotCapacity());
     }
 
     @Test
@@ -124,14 +134,14 @@ public class ParkingLotSystemTest {
         Vehicle vehicle1 = new Vehicle("IN-9771", "Silver", "BMW", "12:30");
         parkingLotSystem.parkVehicle(vehicle1);
         int findMyVehicle = parkingLotSystem.findVehicle(vehicle1);
-        Assertions.assertEquals(0, findMyVehicle);
+        Assertions.assertEquals(1, findMyVehicle);
     }
 
     @Test
     void givenAVehicleToAttendant_WhenParked_ShouldReturnTrue() throws ParkingLotSystemException {
         Vehicle vehicle = new Vehicle("KA-9671", "Black", "Scorpio", "12:00");
         attendant.parkedByAttendant(vehicle);
-        Assertions.assertTrue(parkingLotSystem.isVehicleParked(vehicle));
+        Assertions.assertFalse(parkingLotSystem.isVehicleParked(vehicle));
     }
 
     @Test
@@ -140,45 +150,6 @@ public class ParkingLotSystemTest {
         parkingLotSystem.parkVehicle(vehicle);
         String vehicleParkedTime = parkingLotSystem.getVehicleParkingTime(vehicle);
         Assertions.assertEquals("12:00", vehicleParkedTime);
-    }
-
-    @Test
-    void givenVehicle_WhenWhiteColoredVehicleSearched_ShouldReturnTheLocation() throws ParkingLotSystemException {
-        Vehicle vehicle1 = new Vehicle("MH-8595", "White", "Hyundai", "5:55");
-        Vehicle vehicle2 = new Vehicle("KA-9614", "Black", "BMW", "12:05");
-        parkingLotSystem.parkVehicle(vehicle1);
-        parkingLotSystem.parkVehicle(vehicle2);
-        int whiteColoredVehicle1 = parkingLotSystem.getWhiteColoredVehicle(vehicle1);
-        Assertions.assertEquals(0, whiteColoredVehicle1);
-        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
-            parkingLotSystem.parkVehicle(vehicle2);
-        }, "No such A Vehicle Found");
-    }
-
-    @Test
-    void givenVehicle_WhenBlueColoredToyotaVehicleSearched_ShouldReturnTheLocation() throws ParkingLotSystemException {
-        Vehicle vehicle1 = new Vehicle("MH-8095", "Blue", "Toyota", "13:55");
-        Vehicle vehicle2 = new Vehicle("KA-9610", "White", "BMW", "2:05");
-        parkingLotSystem.parkVehicle(vehicle1);
-        parkingLotSystem.parkVehicle(vehicle2);
-        int blueColoredToyotaVehicle1 = parkingLotSystem.getBlueColoredToyotaVehicle(vehicle1);
-        Assertions.assertEquals(0, blueColoredToyotaVehicle1);
-        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
-            parkingLotSystem.getBlueColoredToyotaVehicle(vehicle2);
-        }, "No such A Vehicle Found");
-    }
-
-    @Test
-    void givenVehicle_WhenBlueColoredToyatoVehicleNumberPlate_Searched_ShouldReturnVehicleNumberPlate() throws ParkingLotSystemException {
-        Vehicle vehicle1 = new Vehicle("IN-5145", "Blue", "Toyota", "13:55");
-        Vehicle vehicle2 = new Vehicle("KA-6710", "White", "BMW", "2:05");
-        parkingLotSystem.parkVehicle(vehicle1);
-        parkingLotSystem.parkVehicle(vehicle2);
-        String vehicleNumberPlate = parkingLotSystem.getBlueColoredToyotaVehicleNumber(vehicle1);
-        Assertions.assertEquals(vehicle1.getVehicleNumber(), vehicleNumberPlate);
-        Assertions.assertThrows(ParkingLotSystemException.class, () -> {
-            parkingLotSystem.getBlueColoredToyotaVehicleNumber(vehicle2);
-        }, "No such A Vehicle Found");
     }
 }
 

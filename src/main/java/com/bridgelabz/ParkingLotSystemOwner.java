@@ -21,15 +21,15 @@ public class ParkingLotSystemOwner implements ParkingLotObserver {
      * Purpose : This Method is created to check the Full capacity of Parking lot
      */
     @Override
-    public void isFullParkingLotCapacity() {
-        isFullCapacity = true;
+    public boolean isFullParkingLotCapacity() {
+       return isFullCapacity = true;
     }
 
     /**
      * Purpose : This Method is created to check the Full capacity is available in Parking lot
      */
     @Override
-    public void isAvailableParkingLotCapacity() {
-        isFullCapacity = false;
+    public boolean isAvailableParkingLotCapacity() {
+       return isFullCapacity = false;
     }
 }

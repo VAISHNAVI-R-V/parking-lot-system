@@ -1,7 +1,11 @@
 package com.bridgelabz;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*****************************************************************************************
  * Purpose: To Implement the PARKING LOT SYSTEM program.
@@ -10,19 +14,19 @@ import java.util.List;
  * @since : 09-11-2021.
  *****************************************************************************************/
 public class ParkingLotSystem {
-    //    private static List<ParkingSlots> parkingSlots1;
-//    private static List<ParkingSlots> parkingSlots2;
     private ParkingLotSystemOwner owner;
     private int actualCapacity;
     public static List<Vehicle> vehicles;
     private List<ParkingLotObserver> observers;
     private AirportSecurity security;
-    private Vehicle vehicle;
-
+//    private Vehicle vehicle;
+    private Map<Integer, Vehicle> parkingLot1 = new HashMap<>();
+    private Map<Integer, Vehicle> parkingLot2 = new HashMap<>();
+    Map currentLot = parkingLot1;
+    int slotOfLot1 = 0;
+    int slotOfLot2 = 0;
 
     public ParkingLotSystem(int capacity) {
-//        parkingSlots1 = new ArrayList();
-//        parkingSlots2 = new ArrayList();
         this.observers = new ArrayList<>();
         vehicles = new ArrayList<>();
         this.actualCapacity = capacity;
@@ -33,6 +37,28 @@ public class ParkingLotSystem {
      */
     public void welcomeMessage() {
         System.out.println("Welcome to Parking Lot Service Program...!! :-) ");
+    }
+
+    /**
+     * Purpose: To distribute vehicles evenly in Lots.
+     *
+     * @param vehicle : vehicle is used to park.
+     */
+    public void evenlyParkedVehicle(Vehicle vehicle) {
+        if (currentLot == parkingLot1) {
+            slotOfLot1 = slotOfLot1 + 1;
+            parkingLot1.put(1, vehicle);
+            this.parkingLot1.entrySet().forEach(entry -> System.out.println(entry.getKey() + " : " + entry.getValue()));
+            currentLot = parkingLot2;
+            return;
+        }
+        if (currentLot == parkingLot2) {
+            slotOfLot2 = slotOfLot2 + 1;
+            parkingLot2.put(2, vehicle);
+            this.parkingLot2.entrySet().forEach(entry -> System.out.println(entry.getKey() + " : " + entry.getValue()));
+            currentLot = parkingLot1;
+            return;
+        }
     }
 
     /**
@@ -69,19 +95,16 @@ public class ParkingLotSystem {
      * @throws : ParkingLotSystemException : Exception Type Message.
      */
     public void parkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
-        if (vehicles.size() == this.actualCapacity) {
-            for (ParkingLotObserver observer : observers) {
-                observer.isFullParkingLotCapacity();
-            }
-            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.PARKING_LOT_IS_FULL,
-                    "Parking Lot is Full");
-        } else if (isVehicleParked(vehicle)) {
-            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
-                    "Vehicle already Parked");
+        if (this.slotOfLot1 == this.actualCapacity && this.slotOfLot2 == this.actualCapacity) {
+            for (ParkingLotObserver parkingLotSystemObserver : observers)
+                parkingLotSystemObserver.isFullParkingLotCapacity();
+            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.PARKING_LOT_IS_FULL, "Parking lot is full");
         }
-        vehicles.add(vehicle);
+        if (this.parkingLot1.containsValue(vehicle) || this.parkingLot2.containsValue(vehicle)) {
+            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE, "Vehicle already exist");
+        }
+        this.evenlyParkedVehicle(vehicle);
     }
-
 
     /**
      * Purpose : To UnParked the Vehicle from parking lot.
@@ -90,15 +113,19 @@ public class ParkingLotSystem {
      * @throws : ParkingLotSystemException : Exception Type Message.
      */
     public void unParkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
-        if (ParkingLotSystem.vehicles == null)
-            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
-                    "No such A Vehicle Found");
-        else if (ParkingLotSystem.vehicles.contains(vehicle)) {
-            ParkingLotSystem.vehicles = null;
-            ParkingLotSystem.vehicles.remove(vehicle);
-
-            for (ParkingLotObserver observer : observers) {
-                observer.isAvailableParkingLotCapacity();
+        if (vehicle == null) {
+            throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE, "Vehicle is not available");
+        }
+        if (this.parkingLot1.containsValue(vehicle)) {
+            this.parkingLot1.remove(vehicle);
+            for (ParkingLotObserver parkingLotSystemObserver : observers) {
+                parkingLotSystemObserver.isAvailableParkingLotCapacity();
+            }
+        }
+        if (this.parkingLot2.containsValue(vehicle)) {
+            this.parkingLot2.remove(vehicle);
+            for (ParkingLotObserver parkingLotSystemObserver : observers) {
+                parkingLotSystemObserver.isAvailableParkingLotCapacity();
             }
         }
     }
@@ -110,7 +137,10 @@ public class ParkingLotSystem {
      * @return : Vehicle Equals
      */
     public boolean isVehicleParked(Vehicle vehicle) {
-        return ParkingLotSystem.vehicles.contains(vehicle);
+        if (this.parkingLot1.containsValue(vehicle) || this.parkingLot2.containsValue(vehicle)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -120,7 +150,10 @@ public class ParkingLotSystem {
      * @return : UnParked vehicle.
      */
     public boolean isVehicleUnParked(Vehicle vehicle) {
-        return ParkingLotSystem.vehicles == null;
+        if (this.parkingLot1.containsValue(vehicle) || this.parkingLot2.containsValue(vehicle)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -139,11 +172,16 @@ public class ParkingLotSystem {
      * @throws ParkingLotSystemException : No Vehicle is found to go home
      */
     public int findVehicle(Vehicle vehicle) throws ParkingLotSystemException {
-        if (isVehicleParked(vehicle))
-            for (Vehicle findVehicle : vehicles) {
-                if (findVehicle.equals(vehicle))
-                    return vehicles.indexOf(findVehicle);
+        for (Map.Entry<Integer, Vehicle> position : parkingLot1.entrySet()) {
+            if (position.getValue().equals(vehicle)) {
+                return position.getKey();
             }
+        }
+        for (Map.Entry<Integer, Vehicle> position : parkingLot2.entrySet()) {
+            if (position.getValue().equals(vehicle)) {
+                return position.getKey();
+            }
+        }
         throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
                 "No Vehicle is found to go home");
     }
@@ -154,63 +192,18 @@ public class ParkingLotSystem {
      * @param vehicle : vehicle is used to get vehicle class.
      * @return : the parking time if the vehicle is parked
      */
-    public String getVehicleParkingTime(Vehicle vehicle) {
-        if (isVehicleParked(vehicle)) {
-            return vehicle.getParkedTime();
+    public String getVehicleParkingTime(Vehicle vehicle) throws ParkingLotSystemException {
+        for (Vehicle vehicle1 : parkingLot1.values()) {
+            if (vehicle1.equals(vehicle)) {
+                return vehicle1.getParkedTime();
+            }
         }
-        return null;
-    }
-
-    /**
-     * Purpose : To know the location of parked white cars.
-     *
-     * @param vehicle : vehicle is used to get White Colored Vehicle.
-     * @return : index of White Colored Vehicle.
-     * @throws ParkingLotSystemException : No such A Vehicle Found.
-     */
-    public int getWhiteColoredVehicle(Vehicle vehicle) throws ParkingLotSystemException {
-        if (isVehicleParked(vehicle) && vehicle.getVehicleColor().equalsIgnoreCase("WHITE"))
-            for (Vehicle whiteColoredVehicle : vehicles) {
-                if (whiteColoredVehicle.equals(vehicle))
-                    return vehicles.indexOf(whiteColoredVehicle);
+        for (Vehicle vehicle1 : parkingLot2.values()) {
+            if (vehicle1.equals(vehicle)) {
+                return vehicle1.getParkedTime();
             }
+        }
         throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
-                "No such A Vehicle Found");
-    }
-
-    /**
-     * Purpose : To know the location of parked Blue colored TOYOTA cars.
-     *
-     * @param vehicle : vehicle is used to get Blue Colored Toyota Vehicle.
-     * @return : index of Blue Colored Toyota Vehicle.
-     * @throws ParkingLotSystemException : No such A Vehicle Found.
-     */
-    public int getBlueColoredToyotaVehicle(Vehicle vehicle) throws ParkingLotSystemException {
-        if (isVehicleParked(vehicle) && vehicle.getVehicleColor().equalsIgnoreCase("Blue")
-                && vehicle.getName().equalsIgnoreCase("TOYOTA"))
-            for (Vehicle blueColoredToyotaVehicle : vehicles) {
-                if (blueColoredToyotaVehicle.equals(vehicle))
-                    return vehicles.indexOf(blueColoredToyotaVehicle);
-            }
-        throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
-                "No such A Vehicle Found");
-    }
-
-    /**
-     * Purpose : To know the location of parked Blue colored TOYOTA cars and Plate Number.
-     *
-     * @param vehicle : vehicle is used to get Blue Colored Toyota VehicleNumber.
-     * @return : Blue Colored Toyota Vehicle Number.
-     * @throws ParkingLotSystemException : No such A Vehicle Found.
-     */
-    public String getBlueColoredToyotaVehicleNumber(Vehicle vehicle) throws ParkingLotSystemException {
-        if (isVehicleParked(vehicle) && vehicle.getVehicleColor().equalsIgnoreCase("Blue")
-                && vehicle.getName().equalsIgnoreCase("TOYOTA"))
-            for (Vehicle toyotaVehicleNumberPlate : vehicles) {
-                if (toyotaVehicleNumberPlate.equals(vehicle))
-                    return toyotaVehicleNumberPlate.getVehicleNumber();
-            }
-        throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
-                "No such A Vehicle Found");
+                "Vehicle is not found");
     }
 }
