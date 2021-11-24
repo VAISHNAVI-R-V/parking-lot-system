@@ -1,5 +1,7 @@
 package com.bridgelabz;
 
+import com.bridgelabz.Vehicle.DriverType;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,9 +92,10 @@ public class ParkingLotSystem {
      * Purpose : To Park the Vehicle in Parking Lot.
      *
      * @param vehicle : vehicle is used to park
+     * @param handicaped
      * @throws : ParkingLotSystemException : Exception Type Message.
      */
-    public void parkVehicle(Vehicle vehicle) throws ParkingLotSystemException {
+    public void parkVehicle(Vehicle vehicle, Vehicle.DriverType driverType) throws ParkingLotSystemException {
         if (this.slotOfLot1 == this.actualCapacity && this.slotOfLot2 == this.actualCapacity) {
             for (ParkingLotObserver parkingLotSystemObserver : observers)
                 parkingLotSystemObserver.isFullParkingLotCapacity();
@@ -102,6 +105,9 @@ public class ParkingLotSystem {
         if (this.parkingLot1.containsValue(vehicle) || this.parkingLot2.containsValue(vehicle)) {
             throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
                     "Vehicle already exist");
+        }
+        if (driverType.equals(DriverType.HANDICAPED)){
+            this.handicappedPark(vehicle);
         }
         this.evenlyParkedVehicle(vehicle);
     }
@@ -285,5 +291,27 @@ public class ParkingLotSystem {
         }
         throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
                 "BMW vehicle not found");
+    }
+
+    /**
+     *
+     *
+     * @param vehicle
+     * @throws ParkingLotSystemException
+     */
+    private void handicappedPark(Vehicle vehicle) throws ParkingLotSystemException {
+        for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
+            if (vehicleMap.getValue() == null) {
+                parkingLot1.put(vehicleMap.getKey(), vehicle);
+            }
+        }
+        if (!parkingLot1.containsValue(vehicle)) {
+            for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot2.entrySet()) {
+                if (vehicleMap.getValue() == null) {
+                    parkingLot2.put(vehicleMap.getKey(), vehicle);
+                }
+            }
+
+        }
     }
 }

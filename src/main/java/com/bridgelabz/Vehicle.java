@@ -11,13 +11,15 @@ public class Vehicle {
     private final String vehicleNumber;
     private final String vehicleColor;
     private final String parkedTime;
-    private boolean handicapped;
+    private final Size size;
+//    private boolean handicapped;
 
-    public Vehicle(String vehicleNumber, String vehicleColor, String name, String parkedTime /*boolean isHandicapped*/) {
+    public Vehicle(String vehicleNumber, String vehicleColor, String name, String parkedTime, Size size /*boolean isHandicapped*/) {
         this.name = name;
         this.vehicleNumber = vehicleNumber;
         this.vehicleColor = vehicleColor;
         this.parkedTime = parkedTime;
+        this.size = size;
 //        this.handicapped = isHandicapped;
     }
 
@@ -37,9 +39,11 @@ public class Vehicle {
     public String getParkedTime() {
         return parkedTime;
     }
-//
-//    public boolean isHandicapped() {
-//        return handicapped;
-//    }
-    public enum Size {LARGE, SMALL, MEDIUM}
+
+    public Size getSize() {
+        return size;
+    }
+
+    public enum DriverType {NORMAL, HANDICAPED};
+    public enum Size {LARGE, SMALL};
 }

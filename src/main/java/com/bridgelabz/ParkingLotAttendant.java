@@ -16,7 +16,7 @@ public class ParkingLotAttendant {
      * @throws ParkingLotSystemException : when the parking lot is full
      */
     public void parkedByAttendant(Vehicle vehicle) throws ParkingLotSystemException {
-        parkingLotSystem.parkVehicle(vehicle);
+        parkingLotSystem.parkVehicle(vehicle, Vehicle.DriverType.HANDICAPED);
     }
 
     /**
