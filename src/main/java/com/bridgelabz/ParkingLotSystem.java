@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.bridgelabz.Vehicle.Size.SMALL;
+
 /*****************************************************************************************
  * Purpose: To Implement the PARKING LOT SYSTEM program.
  *
@@ -19,7 +21,6 @@ public class ParkingLotSystem {
     public static List<Vehicle> vehicles;
     private List<ParkingLotObserver> observers;
     private AirportSecurity security;
-    //    private Vehicle vehicle;
     private Map<Integer, Vehicle> parkingLot1 = new HashMap<>();
     private Map<Integer, Vehicle> parkingLot2 = new HashMap<>();
     Map currentLot = parkingLot1;
@@ -92,7 +93,6 @@ public class ParkingLotSystem {
      * Purpose : To Park the Vehicle in Parking Lot.
      *
      * @param vehicle : vehicle is used to park
-     * @param handicaped
      * @throws : ParkingLotSystemException : Exception Type Message.
      */
     public void parkVehicle(Vehicle vehicle, Vehicle.DriverType driverType) throws ParkingLotSystemException {
@@ -106,7 +106,7 @@ public class ParkingLotSystem {
             throw new ParkingLotSystemException(ParkingLotSystemException.ExceptionType.NO_SUCH_A_VEHICLE,
                     "Vehicle already exist");
         }
-        if (driverType.equals(DriverType.HANDICAPED)){
+        if (driverType.equals(DriverType.NORMAL)){
             this.handicappedPark(vehicle);
         }
         this.evenlyParkedVehicle(vehicle);
@@ -213,6 +213,14 @@ public class ParkingLotSystem {
                 "Vehicle is not found");
     }
 
+    /**
+     * Purpose : To get vehicles by color.
+     *
+     * @param vehicle : it is used to get color of vehicle
+     * @param color : described color property to vehicle
+     * @return : position of vehicle.
+     * @throws ParkingLotSystemException : White color vehicle not found.
+     */
     public int getVehicleBYColour(Vehicle vehicle, String color) throws ParkingLotSystemException {
         if (this.parkingLot1.containsValue(vehicle)) {
             for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
@@ -231,7 +239,14 @@ public class ParkingLotSystem {
                 "White color vehicle not found");
     }
 
-
+    /**
+     *
+     * @param vehicle
+     * @param name
+     * @param color
+     * @return
+     * @throws ParkingLotSystemException
+     */
     public int getVehicleBYNameAndColour(Vehicle vehicle, String name, String color) throws ParkingLotSystemException {
         if (this.parkingLot1.containsValue(vehicle)) {
             for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
@@ -252,8 +267,17 @@ public class ParkingLotSystem {
                 "Toyota blue color vehicle not found");
     }
 
-
-    public int getVehicleBYBlueColorToyotaWithNumberPlate(Vehicle vehicle, String name, String color, String numberPlate) throws ParkingLotSystemException {
+    /**
+     *
+     * @param vehicle
+     * @param name
+     * @param color
+     * @param numberPlate
+     * @return
+     * @throws ParkingLotSystemException
+     */
+    public int getVehicleBYBlueColorToyotaWithNumberPlate(Vehicle vehicle, String name, String color,
+                                                          String numberPlate) throws ParkingLotSystemException {
         if (this.parkingLot1.containsValue(vehicle)) {
             for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
                 if (vehicleMap.getValue().getVehicleColor().equalsIgnoreCase(color) &&
@@ -275,6 +299,13 @@ public class ParkingLotSystem {
                 "Toyota blue color vehicle not found");
     }
 
+    /**
+     *
+     * @param vehicle
+     * @param name
+     * @return
+     * @throws ParkingLotSystemException
+     */
     public int getBMWVehicle(Vehicle vehicle, String name) throws ParkingLotSystemException {
         if (this.parkingLot1.containsValue(vehicle)) {
             for (Map.Entry<Integer, Vehicle> vehicleMap : parkingLot1.entrySet()) {
