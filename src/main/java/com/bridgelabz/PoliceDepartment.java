@@ -5,6 +5,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/*****************************************************************************************
+ * Purpose: To inform details of vehicle the Police department program.
+ *
+ * @author : VAISHNAVI R. VISHWAKARMA.
+ * @since : 23-11-2021.
+ *****************************************************************************************/
 public class PoliceDepartment {
 
     /**

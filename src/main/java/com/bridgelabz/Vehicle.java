@@ -45,5 +45,6 @@ public class Vehicle {
     }
 
     public enum DriverType {NORMAL, HANDICAPED};
+
     public enum Size {LARGE, SMALL};
 }
